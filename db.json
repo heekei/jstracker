@@ -1,0 +1,46 @@
+{
+  "logs": [
+    {
+      "id": 1,
+      "system": {
+        "SDKVersion": "1.0.0",
+        "brand": "devtools",
+        "errMsg": "getSystemInfo:ok",
+        "fontSizeSetting": 16,
+        "language": "zh_CN",
+        "model": "iPhone 6",
+        "pixelRatio": 2,
+        "platform": "devtools",
+        "screenHeight": 667,
+        "screenWidth": 375,
+        "system": "iOS 10.0.1",
+        "version": "6.6.3",
+        "windowHeight": 603,
+        "windowWidth": 375
+      },
+      "network": {
+        "networkType": "wifi"
+      },
+      "detail": ""
+    },
+    {
+      "system": {
+        "model": "iPhone 6",
+        "pixelRatio": 2,
+        "windowWidth": 375,
+        "windowHeight": 603,
+        "system": "iOS 10.0.1",
+        "language": "zh_CN",
+        "version": "6.6.3",
+        "screenWidth": 375,
+        "screenHeight": 667,
+        "brand": "devtools",
+        "fontSizeSetting": 16,
+        "platform": "devtools",
+        "SDKVersion": "1.0.0"
+      },
+      "detail": "哈哈",
+      "id": 2
+    }
+  ]
+}
