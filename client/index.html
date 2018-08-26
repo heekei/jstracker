@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>JStracker Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <h1>JStracker Demo</h1>
+
+    <!-- <script src="/libs/axios.min.js"></script> -->
+    <script src="./libs/axios.min.js"></script>
+    <script src="jstracker.js"></script>
+    <script>
+        function getMoney(wallet) {
+            return wallet.total();
+        }
+        jstracker.setConfig({
+            server: "http://127.0.0.1:8080"
+        });
+        try {
+            getMoney({});
+        } catch (error) {
+            jstracker.track(getMoney, {
+                message: error.message,
+                stack: error.stack
+            });
+        }
+    </script>
+</body>
+
+</html>
