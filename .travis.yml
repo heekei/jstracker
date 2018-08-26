@@ -1,0 +1,26 @@
+language: node_js
+
+node_js: stable  #设置相应的版本
+
+notifications:      # 每次构建的时候是否通知，如果不想收到通知邮箱（个人感觉邮件贼烦），那就设置false吧
+  email: false
+
+sudo: false         # 开启基于容器的Travis CI任务，让编译效率更高。
+
+install:
+  - npm install  
+
+cache:
+  directories:
+    - node_modules
+
+script:
+  - gulp build
+
+
+branches:
+  only:
+    - master  #只监测master分支
+# env:
+#  global:
+#    - GH_REF: https://github.com/heekei/blog.git  #设置GH_REF，注意更改yourname
