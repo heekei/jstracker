@@ -42,7 +42,7 @@
     }
 
     jstracker.config = {
-        server: 'http://localhost:8080',
+        server: 'http://localhost:38364',
     };
     jstracker.setConfig = function (options) {
         jstracker.config = options = Object.assign(jstracker.config, options);

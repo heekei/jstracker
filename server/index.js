@@ -25,10 +25,16 @@ app.post('/', function (req, res) {
         timestamp: new Date().toLocaleString(),
         event: req.body
     };
-    request.post('http://localhost:8081/logs', {
+    request.post(`http://localhost:${jsonServerConfig.port}/logs`, {
+        headers: {
+            'Access-Control-Allow-Origin': '*'
+        },
         json: sa
     }, function (error) {
-        if (error) res.send(500, error.toString());
+        if (error) {
+            res.send(500, error.toString());
+            return;
+        }
         res.send(200, {
             code: 1
         });
