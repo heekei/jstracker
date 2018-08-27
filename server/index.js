@@ -2,7 +2,7 @@ const express = require('express');
 const request = require('request');
 
 const jsonServer = require('json-server');
-const jsonServerConfig = require('./json-server.config.js');
+const config = require('./config.js');
 
 var app = express();
 var bodyParser = require('body-parser');
@@ -23,9 +23,16 @@ app.post('/', function (req, res) {
         reqHeader: req.headers,
         ip: getClientIp(req),
         timestamp: new Date().toLocaleString(),
-        event: req.body
     };
-    request.post(`http://localhost:${jsonServerConfig.port}/logs`, {
+
+    if (req.headers['interface'] &&
+        req.headers['interface'].toString().trim() !== '') {
+        sa[req.headers['interface']] = req.body; //可自定义接口，前提是在db.json中定义好
+    } else {
+        sa.default = req.body;
+    }
+
+    request.post(`http://localhost:${config.jsonServerPort}/${req.headers['interface']}`, {
         headers: {
             'Access-Control-Allow-Origin': '*'
         },
@@ -41,8 +48,8 @@ app.post('/', function (req, res) {
     });
 });
 
-app.listen(38364, function () {
-    console.log('app listening on port 38364!');
+app.listen(config.port, function () {
+    console.log(`app listening on port ${config.port}!`);
 });
 
 
@@ -59,11 +66,11 @@ function getClientIp(req) {
 }
 
 const server = jsonServer.create();
-const router = jsonServer.router(jsonServerConfig.router);
+const router = jsonServer.router(config.router);
 const middlewares = jsonServer.defaults();
 server
     .use(middlewares)
     .use(router)
-    .listen(jsonServerConfig.port, function () {
-        console.log(`JSON Server is running on port ${jsonServerConfig.port}`);
+    .listen(config.jsonServerPort, function () {
+        console.log(`JSON Server is running on port ${config.jsonServerPort}`);
     });

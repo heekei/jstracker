@@ -1,61 +1,67 @@
 {
-  "logs": [
+  "infos": [
     {
       "reqHeader": {
-        "host": "172.20.31.6:38364",
-        "connection": "keep-alive",
-        "content-length": "547",
-        "pragma": "no-cache",
-        "cache-control": "no-cache",
-        "accept": "*/*",
-        "accept-encoding": "gzip, deflate",
-        "accept-language": "zh-CN",
-        "origin": "https://developer.toutiao.com",
-        "referer": "https://tmaservice.developer.toutiao.com",
-        "user-agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1",
-        "content-type": "application/json"
+        "accept": "application/json, text/plain, */*",
+        "content-type": "application/json;charset=utf-8",
+        "interface": "infos",
+        "user-agent": "axios/0.18.0",
+        "content-length": "41",
+        "host": "127.0.0.1:38364",
+        "connection": "close"
       },
-      "ip": "::ffff:172.20.31.6",
-      "timestamp": "2018-8-27 17:53:06",
-      "event": {
-        "system": {
-          "model": "iPhone 6",
-          "pixelRatio": 2,
-          "windowWidth": 375,
-          "windowHeight": 603,
-          "system": "iOS 10.0.1",
-          "language": "zh_CN",
-          "version": "6.6.3",
-          "screenWidth": 375,
-          "screenHeight": 667,
-          "brand": "devtools",
-          "fontSizeSetting": 16,
-          "platform": "devtools",
-          "SDKVersion": "1.0.0"
-        },
-        "network": {
-          "errMsg": "getNetworkType:ok",
-          "networkType": "wifi"
-        },
-        "detail": {
-          "errMsg": "getNetworkType:ok",
-          "networkType": "wifi"
-        },
-        "tmaconfig": {
-          "appId": "tt4f293994d003f684",
-          "appLaunchInfo": {
-            "path": "page/index/index",
-            "query": {}
-          }
-        },
-        "curPage": {
-          "options": {
-            "navigate": "1"
-          },
-          "url": "page/index/index"
-        }
+      "ip": "::ffff:127.0.0.1",
+      "timestamp": "2018-8-27 23:09:23",
+      "infos": {
+        "name": "这是一个基础环境信息"
       },
       "id": 1
+    }
+  ],
+  "events": [
+    {
+      "reqHeader": {
+        "accept": "application/json, text/plain, */*",
+        "content-type": "application/json;charset=utf-8",
+        "interface": "events",
+        "user-agent": "axios/0.18.0",
+        "content-length": "664",
+        "host": "127.0.0.1:38364",
+        "connection": "close"
+      },
+      "ip": "::ffff:127.0.0.1",
+      "timestamp": "2018-8-27 23:09:23",
+      "events": {
+        "EventName": "wx.getNetworkType",
+        "data": {
+          "message": "wx is not defined",
+          "stack": "ReferenceError: wx is not defined\n    at envInfoUpload (F:\\Github Projects\\jstracker\\dist\\test.js:13:9)\n    at Object.<anonymous> (F:\\Github Projects\\jstracker\\dist\\test.js:49:1)\n    at Module._compile (module.js:635:30)\n    at Object.Module._extensions..js (module.js:646:10)\n    at Module.load (module.js:554:32)\n    at tryModuleLoad (module.js:497:12)\n    at Function.Module._load (module.js:489:3)\n    at Function.Module.runMain (module.js:676:10)\n    at startup (bootstrap_node.js:187:16)\n    at bootstrap_node.js:608:3"
+        },
+        "clientTimestamp": "2018-8-27 23:09:23"
+      },
+      "id": 1
+    },
+    {
+      "reqHeader": {
+        "accept": "application/json, text/plain, */*",
+        "content-type": "application/json;charset=utf-8",
+        "interface": "events",
+        "user-agent": "axios/0.18.0",
+        "content-length": "671",
+        "host": "127.0.0.1:38364",
+        "connection": "close"
+      },
+      "ip": "::ffff:127.0.0.1",
+      "timestamp": "2018-8-27 23:09:23",
+      "events": {
+        "EventName": "getMoney",
+        "data": {
+          "message": "wallet.total is not a function",
+          "stack": "TypeError: wallet.total is not a function\n    at getMoney (F:\\Github Projects\\jstracker\\dist\\test.js:7:19)\n    at Object.<anonymous> (F:\\Github Projects\\jstracker\\dist\\test.js:54:5)\n    at Module._compile (module.js:635:30)\n    at Object.Module._extensions..js (module.js:646:10)\n    at Module.load (module.js:554:32)\n    at tryModuleLoad (module.js:497:12)\n    at Function.Module._load (module.js:489:3)\n    at Function.Module.runMain (module.js:676:10)\n    at startup (bootstrap_node.js:187:16)\n    at bootstrap_node.js:608:3"
+        },
+        "clientTimestamp": "2018-8-27 23:09:23"
+      },
+      "id": 2
     }
   ]
 }

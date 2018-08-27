@@ -1,12 +1,12 @@
 {
   "main": "./server/index.js",
   "scripts": {
-    "test": "http-server -p 3001 ./dist",
-    "dbServer": "json-server --watch ./server/db.json"
+    "test": "node dist/test.js"
   },
   "dependencies": {
     "express": "^4.16.3",
     "json-server": "^0.14.0",
+    "q": "^1.5.1",
     "request": "^2.88.0"
   },
   "devDependencies": {
