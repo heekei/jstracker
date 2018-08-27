@@ -3,6 +3,7 @@ const connect = require('gulp-connect'); //静态服务器
 const cors = require('cors');
 const babel = require('gulp-babel');
 const clean = require('gulp-clean');
+const concat = require('gulp-concat');
 // const browserify = require('browserify');
 // const source = require('vinyl-source-stream');
 
@@ -16,16 +17,11 @@ gulp.task('convertjs', function () {
     // gulp.task('browserify')();
 });
 
-// browserify
-// gulp.task('browserify', function () {
-//     var b = browserify({
-//         entries: 'dist/jstracker.js'
-//     });
-
-//     return b.bundle()
-//         .pipe(source('jstracker.bundle.js'))
-//         .pipe(gulp.dest('dist'));
-// });
+gulp.task('concatjs', function () {
+    gulp.src(['client/libs/**/*.js', 'client/**/*.js'])
+        .pipe(concat('jstracker.bundle.js'))
+        .pipe(gulp.dest('build/client'));
+});
 
 gulp.task('copylibs', function () {
     gulp.src('client/libs/**/*.js')
@@ -55,7 +51,7 @@ gulp.task('watch', function () {
     gulp.watch(['client/**/*.html'], ['html']);
 });
 
-gulp.task('subBuild',function(){
+gulp.task('subBuild', function () {
     gulp.src(['client/**/*.js', '!client/libs/**/*.js'])
         .pipe(babel({
             presets: ['es2015']
@@ -68,16 +64,18 @@ gulp.task('subBuild',function(){
     gulp.src(['server/**/*'])
         .pipe(gulp.dest('build/server'));
 });
-gulp.task('clean',function(){
-    gulp.src('build',{read: false})
-        .pipe(clean());
+gulp.task('clean', function () {
+    gulp.src('build', {
+        read: false
+    }).pipe(clean());
 });
 
-gulp.task('clean',function(){
-    gulp.src('dist/',{read: false})
-        .pipe(clean());
+gulp.task('clean', function () {
+    gulp.src('dist/', {
+        read: false
+    }).pipe(clean());
 });
 
-gulp.task('build', ['clean','subBuild']);
+gulp.task('build', ['clean', 'subBuild', 'concatjs']);
 
 gulp.task('default', ['server', 'html', 'convertjs', 'copylibs', 'watch']);
