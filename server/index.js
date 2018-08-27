@@ -1,6 +1,9 @@
 const express = require('express');
 const request = require('request');
 
+const jsonServer = require('json-server');
+const jsonServerConfig = require('./json-server.config.js');
+
 var app = express();
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
@@ -32,8 +35,8 @@ app.post('/', function (req, res) {
     });
 });
 
-app.listen(8080, function () {
-    console.log('app listening on port 8080!');
+app.listen(38364, function () {
+    console.log('app listening on port 38364!');
 });
 
 
@@ -49,15 +52,12 @@ function getClientIp(req) {
         req.socket.remoteAddress;
 }
 
-var exec = require('child_process').exec;
-var childPcs = exec('json-server -c ./server/json-server.json --watch ./server/db.json', function (err) {
-    if (err) console.log(err);
-});
-childPcs.on('message', function (msg, sendHandle) {
-    sendHandle.on('error', function (err) {
-        console.warn('err: ', err);
+const server = jsonServer.create();
+const router = jsonServer.router('./server/db.json');
+const middlewares = jsonServer.defaults();
+server
+    .use(middlewares)
+    .use(router)
+    .listen(jsonServerConfig.port, function () {
+        console.log(`JSON Server is running on port ${jsonServerConfig.port}`);
     });
-    console.log('sendHandle: ', sendHandle);
-    console.log('msg: ', msg);
-});
-// childPcs.kill();

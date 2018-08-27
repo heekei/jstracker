@@ -17,12 +17,6 @@ gulp.task('convertjs', function () {
     // gulp.task('browserify')();
 });
 
-gulp.task('concatjs', function () {
-    gulp.src(['client/libs/**/*.js', 'client/**/*.js'])
-        .pipe(concat('jstracker.bundle.js'))
-        .pipe(gulp.dest('build/client'));
-});
-
 gulp.task('copylibs', function () {
     gulp.src('client/libs/**/*.js')
         .pipe(gulp.dest('dist/libs'))
@@ -45,37 +39,44 @@ gulp.task('server', function () {
         }
     });
 });
+
 gulp.task('watch', function () {
     gulp.watch(['client/**/*.js', '!client/libs/**/*.js'], ['convertjs']);
     gulp.watch(['client/libs/**/*.js'], ['copylibs']);
     gulp.watch(['client/**/*.html'], ['html']);
 });
 
-gulp.task('subBuild', function () {
+gulp.task('babeljs', function () {
     gulp.src(['client/**/*.js', '!client/libs/**/*.js'])
         .pipe(babel({
             presets: ['es2015']
         }))
         .pipe(gulp.dest('build/client'));
 
+});
+
+
+gulp.task('buildLibs', function () {
     gulp.src(['client/libs/**/*.js'])
         .pipe(gulp.dest('build/client'));
+});
 
+gulp.task('concatjs', function () {
+    gulp.src(['client/libs/**/*.js', 'client/**/*.js'])
+        .pipe(concat('jstracker.bundle.js'))
+        .pipe(gulp.dest('build/client'));
+});
+
+gulp.task('buildServer', function () {
     gulp.src(['server/**/*'])
         .pipe(gulp.dest('build/server'));
 });
 gulp.task('clean', function () {
-    gulp.src('build', {
+    return gulp.src('build', {
         read: false
     }).pipe(clean());
 });
 
-gulp.task('clean', function () {
-    gulp.src('dist/', {
-        read: false
-    }).pipe(clean());
-});
-
-gulp.task('build', ['clean', 'subBuild', 'concatjs']);
+gulp.task('build', ['clean', 'babeljs', 'buildLibs', 'concatjs', 'buildServer']);
 
 gulp.task('default', ['server', 'html', 'convertjs', 'copylibs', 'watch']);
