@@ -59,7 +59,7 @@ function getClientIp(req) {
 }
 
 const server = jsonServer.create();
-const router = jsonServer.router('./server/db.json');
+const router = jsonServer.router(jsonServerConfig.router);
 const middlewares = jsonServer.defaults();
 server
     .use(middlewares)

@@ -1,10 +1,7 @@
-// import axios from './libs/axios.min.js';
 (function () {
     'use strict';
-    // if (typeof require === 'NodeRequire') {
-    //     const axios = require('axios').default;
-    // }
-    // var axios = require('./libs/axios');
+    var axios = require('./libs/axios');
+
     if (!axios) {
         console.warn('Please importing Axios before JStracker!');
         return;
@@ -14,7 +11,7 @@
         wx.getNetworkType({
             success: function (network) {
                 wx.request({
-                    url: 'http://172.20.31.6:8080/',
+                    url: jstracker.config.server,
                     method: 'POST',
                     data: {
                         system: wx.getSystemInfoSync(),

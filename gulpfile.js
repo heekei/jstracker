@@ -77,6 +77,6 @@ gulp.task('clean', function () {
     }).pipe(clean());
 });
 
-gulp.task('build', ['clean', 'babeljs', 'buildLibs', 'concatjs', 'buildServer']);
+gulp.task('build', ['babeljs', 'buildLibs', 'concatjs', 'buildServer']);
 
 gulp.task('default', ['server', 'html', 'convertjs', 'copylibs', 'watch']);
