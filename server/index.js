@@ -29,7 +29,7 @@ app.post('/', function (req, res) {
         sa.default = req.body;
     }
 
-    request.post(`http://localhost:${config.jsonServerPort}/${req.headers['interface']}`, {
+    request.post(`http://localhost:${config.jsonServerPort}/${req.headers['interface']||'infos'}`, {
         headers: {
             'Access-Control-Allow-Origin': '*'
         },
