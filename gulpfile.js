@@ -2,11 +2,24 @@ const gulp = require('gulp');
 const connect = require('gulp-connect'); //静态服务器
 const babel = require('gulp-babel');
 // const clean = require('gulp-clean');
+const browserify = require('browserify');
+const source = require('vinyl-source-stream');
+const buffer = require('vinyl-buffer');
+const through2 = require('through2');
 
 gulp.task('buildClient', function () {
     gulp.src(['client/**/*.js'])
         .pipe(babel({
             presets: ['es2015']
+        }))
+        .pipe(through2.obj(function (file, enc, next) {
+            browserify(file.path)
+                // .transform(reactify)
+                .bundle(function (err, res) {
+                    err && console.log(err.stack);
+                    file.contents = res;
+                    next(null, file);
+                });
         }))
         .pipe(gulp.dest('build/client'));
 
@@ -35,6 +48,15 @@ gulp.task('convertjs', function () {
     gulp.src(['client/**/*.js'])
         .pipe(babel({
             presets: ['es2015']
+        }))
+        .pipe(through2.obj(function (file, enc, next) {
+            browserify(file.path)
+                // .transform(reactify)
+                .bundle(function (err, res) {
+                    err && console.log(err.stack);
+                    file.contents = res;
+                    next(null, file);
+                });
         }))
         .pipe(gulp.dest('dist'))
         .pipe(connect.reload());

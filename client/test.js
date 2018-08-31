@@ -29,10 +29,10 @@ function envInfoUpload() {
         });
 
     } catch (error) {
-        jstracker({
+        jstracker.report({
             name: '这是一个基础环境信息'
         });
-        jstracker.track('wx.getNetworkType', {
+        jstracker.report('wx.getNetworkType', {
             message: error.message,
             stack: error.stack
         });
@@ -41,18 +41,18 @@ function envInfoUpload() {
     return defer.promise;
 }
 
-jstracker.setConfig({
+jstracker.init({
     server: 'http://127.0.0.1:38364'
 });
 
 envInfoUpload().then(function (info) {
-    jstracker(info);
+    jstracker.report(info);
 });
 
 try {
     getMoney({});
 } catch (error) {
-    jstracker.track(getMoney, {
+    jstracker.report(getMoney, {
         message: error.message,
         stack: error.stack
     });
