@@ -5,22 +5,13 @@
 ## 开发模式
 > gulp
 
-## 启动钩子和数据服务器
+## 启动数据服务器的两种方法
 
-> 如果使用VS CODE，直接按 ```F5``` 更佳
+1. 如果使用VS CODE，直接按 ```F5```
 
-> node build/server/index.js
+2. node build/server/index.js
 
 ## 使用
-
-```js
-var info = {
-    system: 'os',
-    ip: '127.0.0.1',
-    plat: 'xxx'
-};
-jstracker(info);
-```
 
 ```js
 var data = {
@@ -28,5 +19,6 @@ var data = {
     ip: '127.0.0.1',
     plat: 'xxx'
 };
-jstracker.track('eventName', data);
+jstracker.report('eventName', data);
 ```
+具体使用方式，可参考 `client/test.js` 文件

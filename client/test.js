@@ -29,7 +29,7 @@ function envInfoUpload() {
         });
 
     } catch (error) {
-        jstracker.report({
+        jstracker.collect({
             name: '这是一个基础环境信息'
         });
         jstracker.report('wx.getNetworkType', {
@@ -46,7 +46,7 @@ jstracker.init({
 });
 
 envInfoUpload().then(function (info) {
-    jstracker.report(info);
+    jstracker.collect(info);
 });
 
 try {

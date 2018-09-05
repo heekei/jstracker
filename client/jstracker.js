@@ -156,11 +156,30 @@
             }
         }
     };
+
+    /**
+     * 基本信息或环境信息采集
+     *
+     * @param {*} infos
+     */
+    let collect = function (infos) {
+        let clientTimestamp = new Date().toLocaleString(); //记录客户端时间
+        axios.post(config.server, {
+            infos,
+            clientTimestamp
+        }, {
+            headers: {
+                interface: 'infos'
+            }
+        });
+    };
+
     let jstracker = {
         config: config,
         cache: cache,
         init: init,
-        report: report
+        report: report,
+        collect: collect
     };
 
     if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
@@ -170,7 +189,7 @@
         define('jstracker', [], function () {
             return jstracker;
         });
-    } else if (window) {
+    } else if (typeof window !== 'undefined') {
         window.jstracker = jstracker;
     }
 })();
