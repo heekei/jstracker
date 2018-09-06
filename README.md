@@ -13,6 +13,9 @@
 
 ## 使用
 
+- node环境使用client下的jstracker.js
+- 浏览器环境使用build下的jstracker.js
+
 ```js
 var data = {
     system: 'os',
