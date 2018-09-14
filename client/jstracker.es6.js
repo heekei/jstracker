@@ -9,6 +9,8 @@ class jstracker {
      */
     constructor(options) {
         this.cache = {};
+        this.offlineEnable = false;
+
         this.config = {
             /**
              * 上报服务器
@@ -19,12 +21,49 @@ class jstracker {
              */
             offline: false,
             /**
-             * 离线日志保留时间,单位：天
+             * 离线日志相关配置
              */
-            offlineExp: 5,
-            repeatNum: 5
+            offlineOpt: {
+                /**
+                 * 离线日志保留时间,单位：天
+                 */
+                offlineExp: 5,
+
+                /**
+                 * @description 自定义获取离线日志的方法
+                 * @returns {[]} 日志数组
+                 */
+                getOfflineLogs: null,
+                /**
+                 * @description 自定义设置离线日志的方法
+                 * @param log 需要设置的日志
+                 * @returns 
+                 */
+                setOfflineLog: null,
+            },
+            /**
+             * 缓存区日志重复次数
+             */
+            repeatNum: 5,
+            /**
+             * 自定义ajax请求方式
+             */
+            // request(url, data, option) {
+            //     return Promise
+            // }
         };
         this.init(options);
+    }
+    /**
+     * @description 自定义ajax请求方法
+     * @param {*} url 接口地址
+     * @param {*} data 日志数据
+     * @param {*} option 用来附加请求header
+     * @returns Promise
+     * @memberof jstracker
+     */
+    request(url, data, option) {
+        return axios.post(url, data, option);
     }
     /**
      * @description 设置配置项
@@ -33,29 +72,37 @@ class jstracker {
      */
     init(options) {
         if (options && options.toString() === '[object Object]') {
+            // 覆盖默认配置
             this.config = options = Object.assign(this.config, options);
-        }
 
-        // TODO: 离线功能
-        if (this.config.offline) {
-            if (window && window.indexedDB) {
-                0;
-            } else if (window && window.localStorage) {
-                0;
+            // 覆盖ajax请求方法
+            if (this.config.request && typeof this.config.request === 'function') {
+                this.request = this.config.request;
+            }
+
+            // 离线功能启动
+            let opt = this.config.offlineOpt;
+            if (opt && typeof opt.getOfflineLogs === 'function' && typeof opt.setOfflineLog === 'function') {
+                this.getOfflineLogs = opt.getOfflineLogs;
+                this.setOfflineLog = opt.setOfflineLog;
+                this.offlineEnable = true;
+                if (this.config.offline) console.log('离线日志已启用');
             } else {
-                this.config.offline = false;
-                console.warn('Your browser doesn\'t support IndexedDB or localStorage. Offline logs will be close;');
+                if (this.config.offline) {
+                    this.config.offline = false;
+                    console.error('离线日志启动失败，请检查配置！已切换到实时日志。');
+                }
             }
         }
     }
     /**
-     * @description 基本信息或环境信息采集
+     * @description 基本信息或环境信息采集，可理解为访问日志。
      * @param {*} infos
      * @memberof jstracker
      */
     collect(infos) {
         let clientTimestamp = new Date().toLocaleString(); //记录客户端时间
-        axios.post(this.config.server, {
+        this.request(this.config.server, {
             infos,
             clientTimestamp
         }, {
@@ -72,18 +119,27 @@ class jstracker {
      */
     report(EventName, data) {
         let clientTimestamp = new Date().toLocaleString(); //记录客户端时间
-        if (this.config.offline) {
-            // TODO 离线存储
-        } else {
-            EventName = typeof EventName === 'function' ? EventName.name : EventName; //如果事件名称变量是一个函数，则取函数名称
-            let log = {
-                EventName,
-                data
-            };
-            if (!this.checkCache(log, clientTimestamp).fully) {
-                axios.post(this.config.server, log, {
+        EventName = typeof EventName === 'function' ? EventName.name : EventName; //如果事件名称变量是一个函数，则取函数名称
+        let log = {
+            EventName,
+            data
+        };
+        if (!this.checkCache(log, clientTimestamp).fully) {
+            if (this.config.offline && this.offlineEnable) {
+                // TODO 离线存储
+                this.setOfflineLog(log);
+            } else {
+                this.request(this.config.server, log, {
                     headers: {
                         interface: 'events'
+                    }
+                }).then((res) => {
+                    console.log(`上报成功：${res}`);
+                }, (err) => {
+                    console.error(`实时上报失败: ${err}`);
+                    if (this.offlineEnable) {
+                        console.log('已将上报失败的日志转入离线日志');
+                        this.setOfflineLog(log);
                     }
                 });
             }
