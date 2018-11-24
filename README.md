@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/heekei/jstracker.svg?branch=master)](https://travis-ci.org/heekei/jstracker)
+
 # JStracker
 
 > a simple error tracker hook.
