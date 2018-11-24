@@ -7,7 +7,7 @@ const buffer = require('vinyl-buffer');
 const through2 = require('through2');
 
 gulp.task('buildClient', function () {
-  gulp.src(['client/**/*.js', '!client/**/*.es6.js'])
+  gulp.src(['src/client/**/*.js'])
     .pipe(babel({
       presets: ['es2015']
     }))
@@ -15,8 +15,11 @@ gulp.task('buildClient', function () {
       browserify(file.path)
         // .transform(reactify)
         .bundle(function (err, res) {
-          err && console.log(err.stack);
-          file.contents = res;
+          if (err) {
+            if (err.stack) console.log(err.stack);
+          } else {
+            file.contents = res;
+          }
           next(null, file);
         });
     }))
@@ -25,7 +28,7 @@ gulp.task('buildClient', function () {
 });
 
 gulp.task('buildServer', function () {
-  gulp.src(['server/**/*'])
+  gulp.src(['src/server/**/*'])
     .pipe(gulp.dest('build/server'));
 });
 
