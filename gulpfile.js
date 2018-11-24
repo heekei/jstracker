@@ -7,31 +7,31 @@ const buffer = require('vinyl-buffer');
 const through2 = require('through2');
 
 gulp.task('buildClient', function () {
-    gulp.src(['client/**/*.js','!client/**/*.es6.js'])
-        .pipe(babel({
-            presets: ['es2015']
-        }))
-        .pipe(through2.obj(function (file, enc, next) {
-            browserify(file.path)
-                // .transform(reactify)
-                .bundle(function (err, res) {
-                    err && console.log(err.stack);
-                    file.contents = res;
-                    next(null, file);
-                });
-        }))
-        .pipe(gulp.dest('build/client'));
+  gulp.src(['client/**/*.js', '!client/**/*.es6.js'])
+    .pipe(babel({
+      presets: ['es2015']
+    }))
+    .pipe(through2.obj(function (file, enc, next) {
+      browserify(file.path)
+        // .transform(reactify)
+        .bundle(function (err, res) {
+          err && console.log(err.stack);
+          file.contents = res;
+          next(null, file);
+        });
+    }))
+    .pipe(gulp.dest('build/client'));
 
 });
 
 gulp.task('buildServer', function () {
-    gulp.src(['server/**/*'])
-        .pipe(gulp.dest('build/server'));
+  gulp.src(['server/**/*'])
+    .pipe(gulp.dest('build/server'));
 });
 
 gulp.task('db', function () {
-    return gulp.src('server/db.json')
-        .pipe(gulp.dest('database'));
+  return gulp.src('server/db.json')
+    .pipe(gulp.dest('database'));
 });
 
 /**
@@ -44,25 +44,27 @@ gulp.task('build', ['buildClient', 'buildServer']);
 
 
 gulp.task('convertjs', function () {
-    gulp.src(['client/**/*.js','!client/**/*.es6.js'])
-        .pipe(babel({
-            presets: ['es2015']
-        }))
-        .pipe(through2.obj(function (file, enc, next) {
-            browserify(file.path)
-                // .transform(reactify)
-                .bundle(function (err, res) {
-                    err && console.log(err.stack);
-                    file.contents = res;
-                    next(null, file);
-                });
-        }))
-        .pipe(gulp.dest('dist'));
+  gulp.src(['./src/**/*.js', '!src/server/**/*.js'])
+    .pipe(babel({
+      presets: ['es2015']
+    }))
+    .pipe(through2.obj(function (file, enc, next) {
+      browserify(file.path)
+        .bundle(function (err, res) {
+          if (err) {
+            if (err.stack) console.log(err.stack);
+          } else {
+            file.contents = res;
+          }
+          next(null, file);
+        });
+    }))
+    .pipe(gulp.dest('dist'));
 });
 
 gulp.task('watch', function () {
-    gulp.watch(['client/**/*.js'], ['convertjs']);
-    gulp.watch(['server/db.json'], ['db']);
+  gulp.watch(['./src/**/*.js'], ['convertjs']);
+  gulp.watch(['server/db.json'], ['db']);
 });
 
 /**

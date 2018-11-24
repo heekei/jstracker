@@ -2,3 +2,5 @@ node_modules
 dist
 build
 database
+.DS_Store
+db.json

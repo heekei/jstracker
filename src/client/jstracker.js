@@ -1,5 +1,4 @@
 import axios from 'axios';
-import postData from './postData'
 import md5 from 'js-md5';
 class jstracker {
   /**
@@ -42,7 +41,7 @@ class jstracker {
         setOfflineLog: null,
       },
       /**
-       * 缓存区日志重复次数
+       * 缓存区单条日志重复次数
        */
       repeatNum: 5,
       /**
@@ -134,6 +133,7 @@ class jstracker {
             interface: 'events'
           }
         }).then((res) => {
+          console.log('res: ', res.data);
           console.log(`上报成功：${res}`);
         }, (err) => {
           console.error(`实时上报失败: ${err}`);
@@ -178,6 +178,27 @@ class jstracker {
       hash,
       repeatNum: this.cache[hash].length
     };
+  }
+  /**
+   * @description 触发指定方法，注入错误上报
+   * @param {function} fn
+   * @returns
+   * @memberof jstracker
+   */
+  trigger(fn, args,
+    reportTrigger = {
+      EventName: fn.name,
+      data: 'trigger'
+    }
+  ) {
+    if (reportTrigger) {
+      this.report(...reportTrigger);
+    }
+    try {
+      return fn.apply(null, args);
+    } catch (error) {
+      this.report(fn, error);
+    }
   }
 }
 export default jstracker;
