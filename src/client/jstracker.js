@@ -8,6 +8,9 @@ class jstracker {
    */
   constructor(options) {
     this.cache = {};
+    /**
+     * 离线功能是否可用
+     */
     this.offlineEnable = false;
 
     this.config = {
@@ -79,12 +82,12 @@ class jstracker {
         this.request = this.config.request;
       }
 
-      // 离线功能启动
+      // 离线功能初始化
       let opt = this.config.offlineOpt;
       if (opt && typeof opt.getOfflineLogs === 'function' && typeof opt.setOfflineLog === 'function') {
         this.getOfflineLogs = opt.getOfflineLogs;
         this.setOfflineLog = opt.setOfflineLog;
-        this.offlineEnable = true;
+        this.offlineEnable = true; // 离线功能可用
         if (this.config.offline) console.log('离线日志已启用');
       } else {
         if (this.config.offline) {
@@ -93,22 +96,6 @@ class jstracker {
         }
       }
     }
-  }
-  /**
-   * @description 基本信息或环境信息采集，可理解为访问日志。
-   * @param {*} infos
-   * @memberof jstracker
-   */
-  collect(infos) {
-    let clientTimestamp = new Date().toLocaleString(); //记录客户端时间
-    this.request(this.config.server, {
-      infos,
-      clientTimestamp
-    }, {
-      headers: {
-        interface: 'infos'
-      }
-    });
   }
   /**
    * @description 上报事件
@@ -123,17 +110,12 @@ class jstracker {
       EventName,
       data
     };
-    if (!this.checkCache(log, clientTimestamp).fully) {
+    let checkCacheResult = this.checkCache(log, clientTimestamp);
+    if (!checkCacheResult.fully) {
       if (this.config.offline && this.offlineEnable) {
-        // TODO 离线存储
         this.setOfflineLog(log);
       } else {
-        this.request(this.config.server, log, {
-          headers: {
-            interface: 'events'
-          }
-        }).then((res) => {
-          console.log('res: ', res.data);
+        this.request(this.config.server, log).then((res) => {
           console.log(`上报成功：${res}`);
         }, (err) => {
           console.error(`实时上报失败: ${err}`);
@@ -143,13 +125,15 @@ class jstracker {
           }
         });
       }
+    } else {
+      console.log();
     }
   }
   /**
-   * @description 检查Log是否重复
+   * @description 检查Log是否重复,避免重复上报过多相同日志
    * @param {*} log
    * @param {*} timestamp
-   * @returns
+   * @returns { {fully:Boolean, hash:String, repeatNum:Number} }
    * @memberof jstracker
    */
   checkCache(log, timestamp) {
@@ -182,6 +166,7 @@ class jstracker {
   /**
    * @description 触发指定方法，注入错误上报
    * @param {function} fn
+   * @param {[]} args 参数
    * @returns
    * @memberof jstracker
    */

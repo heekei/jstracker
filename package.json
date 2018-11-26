@@ -1,6 +1,8 @@
 {
   "main": "./server/index.js",
   "scripts": {
+    "dev": "gulp db && gulp",
+    "build": "gulp build",
     "test": "node dist/test.js"
   },
   "dependencies": {

@@ -33,7 +33,7 @@ gulp.task('buildServer', function () {
 });
 
 gulp.task('db', function () {
-  return gulp.src('server/db.json')
+  return gulp.src('src/server/db.json')
     .pipe(gulp.dest('database'));
 });
 
