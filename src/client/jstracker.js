@@ -163,27 +163,27 @@ class jstracker {
       repeatNum: this.cache[hash].length
     };
   }
-  /**
-   * @description 触发指定方法，注入错误上报
-   * @param {function} fn
-   * @param {[]} args 参数
-   * @returns
-   * @memberof jstracker
-   */
-  trigger(fn, args,
-    reportTrigger = {
-      EventName: fn.name,
-      data: 'trigger'
-    }
-  ) {
-    if (reportTrigger) {
-      this.report(...reportTrigger);
-    }
-    try {
-      return fn.apply(null, args);
-    } catch (error) {
-      this.report(fn, error);
-    }
-  }
+  // /**
+  //  * @description 触发指定方法，注入错误上报
+  //  * @param {function} fn
+  //  * @param {[]} args 参数
+  //  * @returns
+  //  * @memberof jstracker
+  //  */
+  // trigger(fn, args,
+  //   reportTrigger = {
+  //     EventName: fn.name,
+  //     data: 'trigger'
+  //   }
+  // ) {
+  //   if (reportTrigger) {
+  //     this.report(...reportTrigger);
+  //   }
+  //   try {
+  //     return fn.apply(null, args);
+  //   } catch (error) {
+  //     this.report(fn, error);
+  //   }
+  // }
 }
 export default jstracker;
