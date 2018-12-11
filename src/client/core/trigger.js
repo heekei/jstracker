@@ -11,15 +11,17 @@ import report from './report';
  * @returns
  */
 export default function trigger(fn, args, reportTrigger = {
-  EventName: fn.name,
-  data: 'trigger'
+  eventName: fn.name,
+  data: 'trigger',
 }) {
   if (reportTrigger) {
-    report(...reportTrigger);
+    report(reportTrigger.eventName, reportTrigger.data);
   }
   try {
-    return fn.apply(null, args);
+    return fn(...args);
   } catch (error) {
+    console.log('error: ', error);
     report(fn, error);
+    return error;
   }
 }

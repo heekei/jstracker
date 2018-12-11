@@ -47,7 +47,7 @@ gulp.task('build', ['buildClient', 'buildServer']);
 
 
 gulp.task('convertjs', function () {
-  gulp.src(['./src/**/*.js', '!src/server/**/*.js'])
+  gulp.src(['src/**/*.js', '!src/server/**/*.js'])
     .pipe(babel({
       presets: ['es2015']
     }))
