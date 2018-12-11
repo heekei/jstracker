@@ -14,13 +14,9 @@ cache:
   directories:
     - node_modules
 
-stage: lint
-  script:
-    - yarn lint
-
-stage: deploy
-  script:
-    - yarn build
+script:
+  - yarn lint
+  - yarn build
 
 
 branches:
