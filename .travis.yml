@@ -15,10 +15,10 @@ cache:
     - node_modules
 
 stage: lint
-  - script: yarn lint
+  script: yarn lint
 
 stage: deploy
-  - script: yarn build
+  script: yarn build
 
 
 branches:
