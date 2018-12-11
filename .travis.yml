@@ -17,7 +17,7 @@ cache:
 stage: lint
   - script: yarn lint
 
-stage: lint
+stage: deploy
   - script: yarn build
 
 
