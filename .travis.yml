@@ -14,11 +14,14 @@ cache:
   directories:
     - node_modules
 
-before_script:
-  - yarn lint
+stages:
+  - lint
+  - build
 
-script:
-  - yarn build
+lint:
+  - script: yarn lint
+build:
+  - script: yarn build
 
 branches:
   only:
