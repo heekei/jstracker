@@ -3,7 +3,6 @@
   "scripts": {
     "start": "webpack-dev-server",
     "build": "webpack --mode production",
-    "test": "node dist/test.js",
     "lint":"eslint src/client/**/*.js"
   },
   "dependencies": {
