@@ -6,9 +6,8 @@ notifications:      # 每次构建的时候是否通知，如果不想收到通�
   email: false
 
 #sudo: true         # 开启基于容器的Travis CI任务，让编译效率更高。
-
-before_script:
-  - ci-npm-cache npm i
+install:
+  - yarn
 
 cache:
   directories:
