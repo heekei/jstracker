@@ -8,14 +8,23 @@ notifications:      # 每次构建的时候是否通知，如果不想收到通�
 #sudo: true         # 开启基于容器的Travis CI任务，让编译效率更高。
 install:
   - yarn
+  - npm install -g codecov
 
 cache:
   directories:
     - node_modules
 
+jobs:
+  include:
+    - stage: lint
+      script: yarn lint
+    - stage: build
+      script: yarn build
+    - stage: coverage
+      script: codecov -t c54600b8-2be7-4524-b4c1-534eefcf0567
 
-script:
-  - yarn lint && yarn build
+# script:
+#   - yarn lint && yarn build
 
 branches:
   only:
