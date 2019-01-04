@@ -21,7 +21,7 @@ jobs:
     - stage: build
       script: yarn build
     - stage: coverage
-      script: codecov -t c54600b8-2be7-4524-b4c1-534eefcf0567
+      script: codecov -t $CODECOV_TOKEN
 
 # script:
 #   - yarn lint && yarn build
