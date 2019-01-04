@@ -16,11 +16,12 @@ cache:
 
 jobs:
   include:
-    - stage: lint
-      script: yarn lint
     - stage: build
+      name: lint
+      script: yarn lint
+    - name: build
       script: yarn build
-    - stage: coverage
+    - name: coverage
       script: codecov -t $CODECOV_TOKEN
 
 # script:
