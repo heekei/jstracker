@@ -1,4 +1,5 @@
-var  jstracker = require('../dist/jstracker');
+var  jstracker = require('../build/jstracker.js');
+console.log('jstracker: ', jstracker);
 
 // const jstracker = new JSTracker({
 //   server: 'http://127.0.0.1:38364',

@@ -15,7 +15,7 @@ const OPTIONS = {
     development: 'dist',
   },
   OUTPUT_FILENAME: {
-    production: 'jstrakcer.js',
+    production: 'jstracker.js',
     development: 'main.js',
   },
 };
@@ -35,6 +35,6 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, OPTIONS.OUTPUT_PATH[mode]),
     filename: OPTIONS.OUTPUT_FILENAME[mode],
-    // globalObject: 'this',
+    globalObject: 'this',
   },
 };

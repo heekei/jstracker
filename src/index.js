@@ -13,12 +13,13 @@ jstracker.init({
 });
 
 function fn1(a, b) {
-  return {
+  const res = {
     global: this,
-    c: a,
+    a,
     b,
   };
+  console.log('res: ', res);
+  return res;
 }
-jstracker.trigger(fn1, [global, '2', '']);
-console.log('res: ', res);
-console.log(jstracker);
+
+jstracker.trigger(fn1, [1, 2]);
